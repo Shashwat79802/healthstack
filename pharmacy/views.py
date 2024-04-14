@@ -91,20 +91,20 @@ def add_to_cart(request, pk):
                 order_item[0].save()
                 # messages.warning(request, "This item quantity was updated!")
                 context = {'patient': patient,'medicines': medicines, 'order': order}
-                return render(request, 'pharmacy/shop.html', context)
+                return render(request, 'shop.html', context)
             
             else:
                 order.orderitems.add(order_item[0])
                 # messages.warning(request, "This item is added to your cart!")
                 context = {'patient': patient,'medicines': medicines,'order': order}
-                return render(request, 'pharmacy/shop.html', context)
+                return render(request, 'shop.html', context)
         else:
             order = Order(user=request.user)
             order.save()
             order.orderitems.add(order_item[0])
             # messages.warning(request, "This item is added to your cart!")
             context = {'patient': patient,'medicines': medicines,'order': order}
-            return render(request, 'pharmacy/shop.html', context)
+            return render(request, 'shop.html', context)
     else:
         logout(request)
         messages.error(request, 'Not Authorized')
@@ -123,11 +123,11 @@ def cart_view(request):
         if carts.exists() and orders.exists():
             order = orders[0]
             context = {'carts': carts,'order': order}
-            return render(request, 'Pharmacy/cart.html', context)
+            return render(request, 'cart.html', context)
         else:
             messages.warning(request, "You don't have any item in your cart!")
             context = {'patient': patient,'medicines': medicines}
-            return render(request, 'pharmacy/shop.html', context)
+            return render(request, 'shop.html', context)
     else:
         logout(request)
         messages.info(request, 'Not Authorized')
@@ -152,15 +152,15 @@ def remove_from_cart(request, pk):
                 order_item.delete()
                 messages.warning(request, "This item was remove from your cart!")
                 context = {'carts': carts,'order': order}
-                return render(request, 'Pharmacy/cart.html', context)
+                return render(request, 'cart.html', context)
             else:
                 messages.info(request, "This item was not in your cart")
                 context = {'patient': patient,'medicines': medicines}
-                return render(request, 'pharmacy/shop.html', context)
+                return render(request, 'shop.html', context)
         else:
             messages.info(request, "You don't have an active order")
             context = {'patient': patient,'medicines': medicines}
-            return render(request, 'pharmacy/shop.html', context)
+            return render(request, 'shop.html', context)
     else:
         logout(request)
         messages.error(request, 'Not Authorized')
@@ -186,15 +186,15 @@ def increase_cart(request, pk):
                     order_item.save()
                     messages.warning(request, f"{item.name} quantity has been updated")
                     context = {'carts': carts,'order': order}
-                    return render(request, 'Pharmacy/cart.html', context)
+                    return render(request, 'cart.html', context)
             else:
                 messages.warning(request, f"{item.name} is not in your cart")
                 context = {'patient': patient,'medicines': medicines}
-                return render(request, 'pharmacy/shop.html', context)
+                return render(request, 'shop.html', context)
         else:
             messages.warning(request, "You don't have an active order")
             context = {'patient': patient,'medicines': medicines}
-            return render(request, 'pharmacy/shop.html', context)
+            return render(request, 'shop.html', context)
     else:
         logout(request)
         messages.error(request, 'Not Authorized')
@@ -220,21 +220,21 @@ def decrease_cart(request, pk):
                     order_item.save()
                     messages.warning(request, f"{item.name} quantity has been updated")
                     context = {'carts': carts,'order': order}
-                    return render(request, 'Pharmacy/cart.html', context)
+                    return render(request, 'cart.html', context)
                 else:
                     order.orderitems.remove(order_item)
                     order_item.delete()
                     messages.warning(request, f"{item.name} item has been removed from your cart")
                     context = {'carts': carts,'order': order}
-                    return render(request, 'Pharmacy/cart.html', context)
+                    return render(request, 'cart.html', context)
             else:
                 messages.info(request, f"{item.name} is not in your cart")
                 context = {'patient': patient,'medicines': medicines}
-                return render(request, 'pharmacy/shop.html', context)
+                return render(request, 'shop.html', context)
         else:
             messages.info(request, "You don't have an active order")
             context = {'patient': patient,'medicines': medicines}
-            return render(request, 'pharmacy/shop.html', context)
+            return render(request, 'shop.html', context)
     else:
         logout(request)
         messages.error(request, 'Not Authorized')

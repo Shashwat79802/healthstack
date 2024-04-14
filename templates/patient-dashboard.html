@@ -182,9 +182,9 @@
                                   <td>{{appointment.appointment_type}}</td>
                                   
                                   {% if appointment.appointment_type == 'checkup' %}
-                                  <td>{{appointment.doctor.consultation_fee}} BDT</td>
+                                  <td>{{appointment.doctor.consultation_fee}} INR</td>
                                   {% else %}
-                                  <td>{{appointment.doctor.report_fee}} BDT</td>
+                                  <td>{{appointment.doctor.report_fee}} INR</td>
                                   {% endif %}
                                   <td>
                                     {% if appointment.appointment_status == 'pending' %}
@@ -212,7 +212,7 @@
                                         href="{% url 'ssl-payment-request' pk=appointment.patient.patient_id id=appointment.id %}"
                                         class="btn btn-sm bg-success-light"
                                       >
-                                        <i class="fas fa-dollar-sign"></i> Pay
+                                        <i class="fas fa-rupee-sign"></i> Pay
                                         Now
                                       </a>
                                       
@@ -408,7 +408,7 @@
                                   </td>
                                   <td>{{payment.transaction_id}}</td>
                                   <td>{{payment.transaction_date}}</td>
-                                  <td>{{payment.currency_amount}} BDT</td>
+                                  <td>{{payment.currency_amount}} INR</td>
                                   <td>{{payment.card_type}}</td>
                                   <td>{{payment.card_issuer}}</td>
                                   <td>

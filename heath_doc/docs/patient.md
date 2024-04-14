@@ -255,7 +255,7 @@ def cart_view(request):
         if carts.exists() and orders.exists():
             order = orders[0]
             context = {'carts': carts,'order': order}
-            return render(request, 'Pharmacy/cart.html', context)
+            return render(request, 'cart.html', context)
         else:
             messages.warning(request, "You don't have any item in your cart!")
             context = {'patient': patient,'medicines': medicines}
