@@ -16,7 +16,7 @@
     background-color: white;
     vertical-align: middle;
     border-radius: 0.25rem;
-    border: 1px solid blue;
+    border: 1px solid #1fd655;
     font-size: 1rem;
     width: 100%;
     line-height: 2;
@@ -28,8 +28,8 @@
   
   input[type="search"]:focus {
     transition: all 0.5s;
-    box-shadow: 0 0 40px #87CEEB;
-    border-color: blue;
+    box-shadow: 0 0 40px #abf7b1;
+    border-color: #1fd655;
     outline: none;
   }
   
@@ -84,7 +84,7 @@
     line-height: 1.15;
     letter-spacing: 0.1rem;
     text-transform: uppercase;
-    background: blue;
+    background: #1fd655;
     color: white;
     border: 1px solid transparent;
     vertical-align: middle;
@@ -98,7 +98,7 @@
   .button:active,
   .button:focus {
     cursor: pointer;
-    background: #87CEEB;
+    background: #008631;
     color: #292826;
     outline: 0;
   }
@@ -176,7 +176,7 @@
   }
   
   .c-form__toggle {
-    color: blue;
+    color: #1fd655;
     top: 0;
     cursor: pointer;
     z-index: 1;
@@ -208,7 +208,7 @@
   }
   
   .c-form__input {
-    color: #15558D;
+    color: #5ced73;
     height: 100%;
     width: 100%;
     padding: 0 0.714em;
@@ -217,7 +217,7 @@
     color: currentColor;
   }
   .c-form__input:required:valid {
-    color: blue;
+    color: #1fd655;
   }
   .c-form__input:required:valid + .c-form__buttonLabel {
     color: #ffffff;
@@ -245,5 +245,5 @@
     padding: 0;
     height: 100%;
     width: 5em;
-    background-color: blue;
+    background-color: #1fd655;
   }

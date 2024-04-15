@@ -30,13 +30,13 @@ div.datedropper.my-style {
   div.datedropper.my-style .pick-lg-b .pick-sl:before,
   div.datedropper.my-style .pick-m,
   div.datedropper.my-style .pick-lg-h {
-    background-color: blue;
+    background-color: #1fd655;
   }
   div.datedropper.my-style .pick-y.pick-jump,
   div.datedropper.my-style .pick li span,
   div.datedropper.my-style .pick-lg-b .pick-wke,
   div.datedropper.my-style .pick-btn {
-    color: blue;
+    color: #1fd655;
   }
   div.datedropper.my-style .picker,
   div.datedropper.my-style .pick-l {

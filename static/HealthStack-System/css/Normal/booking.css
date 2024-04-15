@@ -18,7 +18,7 @@
   
   .widget-boxed .input-group .fa {
     font-size: 18px !important;
-    color: blue;
+    color: #1fd655;
   }
   
   .widget-boxed .input-group .fa:hover {
@@ -39,7 +39,7 @@
   }
   
   .widget-boxed-header h4 .fa {
-    color: blue;
+    color: #1fd655;
     position: relative;
     top: 0px;
   }
@@ -89,7 +89,7 @@
   }
   
   .agent-contact-form-sidebar .multiple-send-message {
-    background-color: blue;
+    background-color: #1fd655;
     color: #ffffff;
     font-family: "Montserrat", sans-serif;
     cursor: pointer;
