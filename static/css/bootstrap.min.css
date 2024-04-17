@@ -14,9 +14,9 @@ colours: --darkgreen: #008631; (primary)
 */
 
  :root {
-	--blue: #008631;
-	--indigo: #1fd655;
-	--purple: #5ced73;
+	--darkgreen: #008631;
+	--green: #1fd655;
+	--lightgreen: #5ced73;
 	--pink: #e83e8c;
 	--red: #dc3545;
 	--orange: #fd7e14;

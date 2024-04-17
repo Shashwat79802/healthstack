@@ -3166,7 +3166,7 @@ home-image{
     border: 2px solid #1fd655;
 }
 .exp-year {
-    color: #20c0f3;
+    color: #1fd655;
     margin-bottom: 2px;
 }
 .exp-title {
@@ -3361,7 +3361,7 @@ home-image{
     color: #f2b600
 }
 .terms-accept a {
-	color: #20c0f3;
+	color: #1fd655;
 	font-weight: 500;
 }
 .business-widget {
@@ -3592,7 +3592,7 @@ home-image{
     width: 100%;
 }
 .exist-customer a {
-	color: #20c0f3;
+	color: #1fd655;
 	font-weight: 500;
 }
 .payment-widget .payment-list + .payment-list {
@@ -3642,7 +3642,7 @@ home-image{
     transition: all .3s;
 }
 .payment-radio input:checked ~ .checkmark {
-    border-color: #20c0f3;
+    border-color: #1fd655;
 }
 .payment-radio .checkmark::after {
     position: absolute;
@@ -3729,7 +3729,7 @@ home-image{
     color: #272b41;
 }
 .booking-total ul li .total-cost {
-    color: #20c0f3;
+    color: ;#1fd655
     font-size: 16px;
     float: right;
 }
@@ -3944,7 +3944,7 @@ home-image{
 	-ms-flex-pack: center;
 }
 .edit-link {
-    color: #20c0f3;
+    color: #1fd655;
     font-size: 16px;
     margin-top: 4px;
 }
@@ -4858,9 +4858,9 @@ home-image{
 	-webkit-justify-content: center;
 	-ms-flex-pack: center;
 }
-.add-more a {
-	color: #20c0f3;
-}
+/* .add-more a {
+	color: #1fd655;
+} */
 .bootstrap-tagsinput {
     border-color: #dcdcdc;
     box-shadow: inherit;
@@ -4872,7 +4872,7 @@ home-image{
 	border-color: #bbb;
 }
 .bootstrap-tagsinput .tag {
-    background-color: #20c0f3;
+    background-color: #1fd655;
     color: #fff;
     display: inline-block;
     font-size: 14px;
@@ -4987,7 +4987,7 @@ home-image{
 .fc-state-down,
 .fc-state-active,
 .fc-state-disabled {
-	background-color: #20c0f3 !important;
+	background-color: #1fd655 !important;
 	color: #fff !important;
 	text-shadow: none !important;
 }
@@ -6349,7 +6349,7 @@ home-image{
 	.nav-tabs.nav-justified > li > a.active,
 	.nav-tabs.nav-justified > li > a.active:hover,
 	.nav-tabs.nav-justified > li > a.active:focus {
-		border-color: transparent transparent transparent #20c0f3;
+		border-color: transparent transparent transparent #1fd655;
 		border-left-width: 2px;
 	}
 	.nav-tabs {
@@ -6379,7 +6379,7 @@ home-image{
 	.nav-tabs > li > a.active,
 	.nav-tabs > li > a.active:hover,
 	.nav-tabs > li > a.active:focus {
-		border-color: transparent transparent transparent #20c0f3 !important;
+		border-color: transparent transparent transparent #1fd655 !important;
 		border-left-width: 2px;
 	}
 	.nav-tabs > li.open:not(.active) > a,
@@ -6403,7 +6403,7 @@ home-image{
 	.nav-tabs-justified > li > a.active:hover,
 	.nav-tabs-justified > li > a.active:focus {
 		border-width: 0 0 0 2px;
-		border-left-color: #20c0f3;
+		border-left-color: #1fd655;
 	}
 	.review-listing > ul li .comment .comment-body .meta-data span.comment-date {
 		margin-bottom: 5px;
@@ -6442,7 +6442,7 @@ home-image{
 	.user-tabs .nav-tabs.nav-tabs-bottom > li > a.active:hover, 
 	.user-tabs .nav-tabs.nav-tabs-bottom > li > a.active:focus {
 		border-left-width: 2px;
-		color: #20c0f3;
+		color: #1fd655;
 	}
 	.doctor-widget {
 		-ms-flex-direction: column;
