@@ -66,7 +66,7 @@ class Doctor_Information(models.Model):
     end_year = models.CharField(max_length=200, null=True, blank=True)
     
     # register_status = models.BooleanField(default=False) default='pending'
-    register_status =  models.CharField(max_length=200, null=True, blank=True)
+    register_status =  models.CharField(max_length=200, null=True, blank=True, default='Pending')
     
     # ForeignKey --> one to one relationship with Hospital_Information model.
     hospital_name = models.ForeignKey(Hospital_Information, on_delete=models.SET_NULL, null=True, blank=True)

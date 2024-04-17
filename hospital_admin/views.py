@@ -838,7 +838,10 @@ def pending_doctor_list(request):
     if request.user.is_hospital_admin:
         user = Admin_Information.objects.get(user=request.user)
     doctors = Doctor_Information.objects.filter(register_status='Pending')
-    return render(request, 'hospital_admin/Pending-doctor-list.html', {'all': doctors, 'admin': user})
+    if doctors:
+            return render(request, 'hospital_admin/Pending-doctor-list.html', {'all': doctors, 'admin': user})
+    else:
+            return render(request, 'hospital_admin/Pending-doctor-empty.html')
 
 @csrf_exempt
 @login_required(login_url='admin_login')
