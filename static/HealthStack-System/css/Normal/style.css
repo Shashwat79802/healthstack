@@ -2499,6 +2499,7 @@ home-image{
 	padding: 15px;
 }
 .doc-img {
+	max-height: 130px;
     position: relative;
     overflow: hidden;
     z-index: 1;
