@@ -818,3 +818,5 @@ def analyze_report(request):
             os.remove(file.name)
 
         return render(request, 'report-analysis.html', {'final_json': final_json})
+    return render(request, 'report-analysis.html')
+    
