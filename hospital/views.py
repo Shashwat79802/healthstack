@@ -1,5 +1,8 @@
 import email
+import os
+import json
 from multiprocessing import context
+from PyPDF2 import PdfReader
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 # from django.contrib.auth.models import User
@@ -718,6 +721,100 @@ def got_online(sender, user, request, **kwargs):
 def got_offline(sender, user, request, **kwargs):   
     user.login_status = False
     user.save()
+
+
+def extract_text_from_pdf(pdf_file):
+    pdf_reader = PdfReader(pdf_file)
+    text = ''
+    for page_num in range(len(pdf_reader.pages)):
+        text += pdf_reader.pages[page_num].extract_text()
+
+    text = text.replace('\n', ' ')
+    text = text.replace('\x0c', ' ')
+    return text
     
 
+@csrf_exempt
+def analyze_report(request):
+    if request.method == 'POST' and request.FILES:
+        uploaded_files = request.FILES.getlist('files[]')  # 'files[]' should match the FormData key in the frontend
+        analysis_type = request.POST.get('analysis_type')  # Extract the 'analysis_type' attribute from POST data
 
+        extracted_text = []
+        final_json = {}
+
+        for pdf in uploaded_files:
+            with open(pdf.name, 'wb') as destination:
+                for chunk in pdf.chunks():
+                    destination.write(chunk)
+
+        for file in uploaded_files:
+            extracted_text.append(extract_text_from_pdf(file))
+
+        if analysis_type == 'blood_count':
+            for i in range(len(extracted_text)):
+                observed_values = {}
+                patterns = {
+                    'Haemoglobin': r'Haemoglobin\s+(\d+\.\d+)\s+g/dl',
+                    'RBC': r'RBC\s+(\d+\.\d+)\s+millions/mm3',
+                    'Platelet Count': r'Platelet Count\s+(\d+\.\d+)\s+lakhs/mcL',
+                }
+
+                date_pattern = r"Date\s*:\s*(\d{2}/\d{2}/\d{4})"
+
+                date_match = re.search(date_pattern, extracted_text[i])
+                if date_match:
+                    date = date_match.group(1)
+                else:
+                    date = None
+
+                for test_name, pattern in patterns.items():
+                    match = re.search(pattern, extracted_text[i])
+                    if match:
+                        observed_values[test_name] = float(match.group(1))
+
+                if 'Haemoglobin' not in observed_values:
+                    observed_values['Haemoglobin'] = 8.0
+                if 'RBC' not in observed_values:
+                    observed_values['RBC'] = 4.5
+                if 'Platelet Count' not in observed_values:
+                    observed_values['Platelet Count'] = 5
+
+                observed_values['Date'] = date
+                final_json[i] = observed_values
+
+        elif analysis_type == 'blood_glucose':
+            for i in range(len(extracted_text)):
+                observed_values = {}
+                pattern = r"Blood Glucose\(F\).*?(\d+\.\d+).*?Blood Glucose\(PP\).*?(\d+\.\d+)"
+
+                matches = re.findall(pattern, extracted_text[i])
+
+                glucose_f_value = float(matches[0][0]) if matches else None
+                glucose_pp_value = float(matches[0][1]) if matches else None
+
+                observed_values['Blood Glucose(F)'] = glucose_f_value
+                observed_values['Blood Glucose(PP)'] = glucose_pp_value
+
+                date_pattern = r"Date\s*:\s*(\d{2}/\d{2}/\d{4})"
+
+                date_match = re.search(date_pattern, extracted_text[i])
+                if date_match:
+                    date = date_match.group(1)
+                else:
+                    date = None
+
+                observed_values['Date'] = date
+
+                if glucose_f_value is None:
+                    observed_values['Blood Glucose(F)'] = 100.0
+                if glucose_pp_value is None:
+                    observed_values['Blood Glucose(PP)'] = 85.04
+
+                final_json[i] = observed_values
+
+        print(final_json)
+        for file in uploaded_files:
+            os.remove(file.name)
+
+        return render(request, 'analysis.html', {'final_json': final_json})

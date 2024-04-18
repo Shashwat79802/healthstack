@@ -47,6 +47,8 @@ urlpatterns = [
     path('delete-prescription/<int:pk>/', views.delete_prescription, name='delete-prescription'),
     path('delete-report/<int:pk>/', views.delete_report, name='delete-report'),
 
+    path('analyze-report/', views.analyze_report, name='analyze-report'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
