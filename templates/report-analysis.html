@@ -39,11 +39,27 @@
       href="{% static 'HealthStack-System/css/Normal/style.css' %}"
     />
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.min.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
+    <style>   
+        .custom-dropdown-menu {
+            background-color: #abf7b1;
+            color: #757575;
+        }
+
+        .custom-dropdown-menu .dropdown-item:hover {
+            background-color: #008631;
+            color: white;
+        }
+
+        #chart-container {
+            width: 60%; 
+            margin-left: 20px; 
+            padding-top: 50px; 
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="healthstack/static/js/charts.js" defer></script>
+
   </head>
 
   <body>
@@ -112,36 +128,42 @@
 
                 <div class="row">
                   <div class="col-md-12">
-                    <h2 class="mb-4 text-center"><b>Report Analysis</b></h2>
-                    <h4 style="align-self: center; color: #212529">Upload your report files here.</h4>
+                    <h2 class="mb-4 text-center" style="margin-bottom: 0.6rem !important;"><b>Report Analysis</b></h2>
+                    <h4 class="mb-4 text-center" style="color: rgba(33, 37, 41, 0.8); font-size: 16px;">Upload your report files here.</h4>
 
                 <!-- Dropdown and Button -->
                 <div class="d-flex justify-content-between mt-4">
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select Report Type
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #008631;">
+                            Select Report Type
                         </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Blood Count</a>
-                        <a class="dropdown-item" href="#">Blood Glucose</a>
-                    </div>
+                        <div class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Blood Count</a>
+                            <a class="dropdown-item" href="#">Blood Glucose</a>
+                        </div>
                     </div>
                     <button type="button" class="btn btn-primary">Upload Here</button>
                 </div>
-                <!-- /Dropdown and Button -->
                 
+                <!-- /Dropdown and Button -->
 
-      <!-- Footer -->
-      {% include 'footer.html' %}
-      <!-- /Footer -->
                   </div>
                 </div>
+
+                <!-- chart -->
+                <div id="chart-container">
+                    <canvas id="medicalReportsChart"></canvas>
+                </div>
             </div>
+
           </div>
         </div>
     </div>
     <!-- Page Content -->
 
+    <!-- Footer -->
+    {% include 'footer.html' %}
+    <!-- /Footer -->
 
     <!-- /Main Wrapper -->
   {% else %} 
@@ -166,6 +188,41 @@
 
     <!-- Searchbar JS -->
     <script src="{% static 'HealthStack-System/js/Normal/sidebar.js' %}"></script>
+
+    <!-- dropdown selections -->
+    <script>
+    // <!-- Dropdown selection -->
+        document.addEventListener("DOMContentLoaded", function() {
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+    
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const selectedValue = this.textContent.trim();
+                    const dropdownButton = document.getElementById('dropdownMenuButton');
+                    dropdownButton.textContent = selectedValue;
+                });
+            });
+        });
+
+    // <!-- Upload here button -->
+        document.addEventListener("DOMContentLoaded", function() {
+            const uploadButton = document.querySelector('.btn.btn-primary');
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.multiple = true; 
+
+            uploadButton.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function() {
+                const selectedFiles = Array.from(this.files); // array of files
+            });
+        });
+    </script>
+    
+    
+
   </body>
 
 </html>
