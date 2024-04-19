@@ -736,87 +736,93 @@ def extract_text_from_pdf(pdf_file):
 
 @csrf_exempt
 def analyze_report(request):
-    if request.method == 'POST' and request.FILES:
-        uploaded_files = request.FILES.getlist('files[]')  # 'files[]' should match the FormData key in the frontend
-        analysis_type = request.POST.get('analysis_type')  # Extract the 'analysis_type' attribute from POST data
+    if request.user.is_patient:
+        patient = Patient.objects.get(user=request.user)
 
-        extracted_text = []
-        final_json = {}
+        if request.method == 'POST' and request.FILES:
+            uploaded_files = request.FILES.getlist('files[]')  # 'files[]' should match the FormData key in the frontend
+            analysis_type = request.POST.get('analysis_type')  # Extract the 'analysis_type' attribute from POST data
 
-        for pdf in uploaded_files:
-            with open(pdf.name, 'wb') as destination:
-                for chunk in pdf.chunks():
-                    destination.write(chunk)
+            extracted_text = []
+            final_json = {}
 
-        for file in uploaded_files:
-            extracted_text.append(extract_text_from_pdf(file))
+            for pdf in uploaded_files:
+                with open(pdf.name, 'wb') as destination:
+                    for chunk in pdf.chunks():
+                        destination.write(chunk)
 
-        if analysis_type == 'blood_count':
-            for i in range(len(extracted_text)):
-                observed_values = {}
-                patterns = {
-                    'Haemoglobin': r'Haemoglobin\s+(\d+\.\d+)\s+g/dl',
-                    'RBC': r'RBC\s+(\d+\.\d+)\s+millions/mm3',
-                    'Platelet Count': r'Platelet Count\s+(\d+\.\d+)\s+lakhs/mcL',
-                }
+            for file in uploaded_files:
+                extracted_text.append(extract_text_from_pdf(file))
 
-                date_pattern = r"Date\s*:\s*(\d{2}/\d{2}/\d{4})"
+            if analysis_type == 'blood_count':
+                for i in range(len(extracted_text)):
+                    observed_values = {}
+                    patterns = {
+                        'Haemoglobin': r'Haemoglobin\s+(\d+\.\d+)\s+g/dl',
+                        'RBC': r'RBC\s+(\d+\.\d+)\s+millions/mm3',
+                        'Platelet Count': r'Platelet Count\s+(\d+\.\d+)\s+lakhs/mcL',
+                    }
 
-                date_match = re.search(date_pattern, extracted_text[i])
-                if date_match:
-                    date = date_match.group(1)
-                else:
-                    date = None
+                    date_pattern = r"Date\s*:\s*(\d{2}/\d{2}/\d{4})"
 
-                for test_name, pattern in patterns.items():
-                    match = re.search(pattern, extracted_text[i])
-                    if match:
-                        observed_values[test_name] = float(match.group(1))
+                    date_match = re.search(date_pattern, extracted_text[i])
+                    if date_match:
+                        date = date_match.group(1)
+                    else:
+                        date = None
 
-                if 'Haemoglobin' not in observed_values:
-                    observed_values['Haemoglobin'] = 8.0
-                if 'RBC' not in observed_values:
-                    observed_values['RBC'] = 4.5
-                if 'Platelet Count' not in observed_values:
-                    observed_values['Platelet Count'] = 5
+                    for test_name, pattern in patterns.items():
+                        match = re.search(pattern, extracted_text[i])
+                        if match:
+                            observed_values[test_name] = float(match.group(1))
 
-                observed_values['Date'] = date
-                final_json[i] = observed_values
+                    if 'Haemoglobin' not in observed_values:
+                        observed_values['Haemoglobin'] = 8.0
+                    if 'RBC' not in observed_values:
+                        observed_values['RBC'] = 4.5
+                    if 'Platelet Count' not in observed_values:
+                        observed_values['Platelet Count'] = 5
 
-        elif analysis_type == 'blood_glucose':
-            for i in range(len(extracted_text)):
-                observed_values = {}
-                pattern = r"Blood Glucose\(F\).*?(\d+\.\d+).*?Blood Glucose\(PP\).*?(\d+\.\d+)"
+                    observed_values['Date'] = date
+                    final_json[i] = observed_values
 
-                matches = re.findall(pattern, extracted_text[i])
+            elif analysis_type == 'blood_glucose':
+                for i in range(len(extracted_text)):
+                    observed_values = {}
+                    pattern = r"Blood Glucose\(F\).*?(\d+\.\d+).*?Blood Glucose\(PP\).*?(\d+\.\d+)"
 
-                glucose_f_value = float(matches[0][0]) if matches else None
-                glucose_pp_value = float(matches[0][1]) if matches else None
+                    matches = re.findall(pattern, extracted_text[i])
 
-                observed_values['Blood Glucose(F)'] = glucose_f_value
-                observed_values['Blood Glucose(PP)'] = glucose_pp_value
+                    glucose_f_value = float(matches[0][0]) if matches else None
+                    glucose_pp_value = float(matches[0][1]) if matches else None
 
-                date_pattern = r"Date\s*:\s*(\d{2}/\d{2}/\d{4})"
+                    observed_values['Blood Glucose(F)'] = glucose_f_value
+                    observed_values['Blood Glucose(PP)'] = glucose_pp_value
 
-                date_match = re.search(date_pattern, extracted_text[i])
-                if date_match:
-                    date = date_match.group(1)
-                else:
-                    date = None
+                    date_pattern = r"Date\s*:\s*(\d{2}/\d{2}/\d{4})"
 
-                observed_values['Date'] = date
+                    date_match = re.search(date_pattern, extracted_text[i])
+                    if date_match:
+                        date = date_match.group(1)
+                    else:
+                        date = None
 
-                if glucose_f_value is None:
-                    observed_values['Blood Glucose(F)'] = 100.0
-                if glucose_pp_value is None:
-                    observed_values['Blood Glucose(PP)'] = 85.04
+                    observed_values['Date'] = date
 
-                final_json[i] = observed_values
+                    if glucose_f_value is None:
+                        observed_values['Blood Glucose(F)'] = 100.0
+                    if glucose_pp_value is None:
+                        observed_values['Blood Glucose(PP)'] = 85.04
 
-        print(final_json)
-        for file in uploaded_files:
-            os.remove(file.name)
+                    final_json[i] = observed_values
 
-        return render(request, 'report-analysis.html', {'final_json': final_json})
-    return render(request, 'report-analysis.html')
-    
+            print(final_json)
+            for file in uploaded_files:
+                os.remove(file.name)
+
+            return render(request, 'report-analysis.html', context={'patient': patient, 'final_json': final_json})
+    else:
+        return redirect('logout')
+
+    return render(request, 'report-analysis.html', context={'patient': patient})
+
