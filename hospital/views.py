@@ -36,6 +36,7 @@ from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -743,6 +744,12 @@ def analyze_report(request):
             uploaded_files = request.FILES.getlist('files[]')  # 'files[]' should match the FormData key in the frontend
             analysis_type = request.POST.get('analysis_type')  # Extract the 'analysis_type' attribute from POST data
 
+            if uploaded_files == []:
+                print('No files were uploaded')
+                return JsonResponse({'error': 'No files were uploaded'})
+            
+            print(uploaded_files)
+
             extracted_text = []
             final_json = {}
 
@@ -817,10 +824,10 @@ def analyze_report(request):
                     final_json[i] = observed_values
 
             print(final_json)
-            for file in uploaded_files:
-                os.remove(file.name)
+            # for file in uploaded_files:
+            #     os.remove(file.name)
 
-            return json.dumps(final_json)
+            return JsonResponse(final_json)
     else:
         return redirect('logout')
 
