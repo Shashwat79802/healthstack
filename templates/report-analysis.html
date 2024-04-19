@@ -63,112 +63,93 @@
   </head>
 
   <body>
+
     {% if user.is_authenticated %}
     <!-- Main Wrapper -->
     <div class="main-wrapper">
-      <!-- Header -->
-      <header class="header">
-        {% if user.is_authenticated and user.is_patient %}
-				{% include 'patient_navbar.html' %}
-				{% endif %}
-				
-				{% if user.is_authenticated and user.is_doctor %}
-				{% include 'doctor-navbar.html' %}
-				{% endif %}
-      </header>
-      <!-- /Header -->
-
-      <!-- Breadcrumb -->
-      <div class="breadcrumb-bar">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div class="col-md-12 col-12">
-              <nav aria-label="breadcrumb" class="page-breadcrumb">
-                <ol class="breadcrumb">
-                  {% if user.is_authenticated and user.is_patient %}
-									<li class="breadcrumb-item"><a href="{% url 'patient-dashboard' %}">Home</a></li>
-									{% endif %}
-
-									{% if user.is_authenticated and user.is_doctor %}
-									<li class="breadcrumb-item"><a href="{% url 'doctor-dashboard' %}">Home</a></li>
-									{% endif %}
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Report
-                  </li>
-                  
-                </ol>
-              </nav>
-              <h2 class="breadcrumb-title">REPORT ANALYSIS</h2>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /Breadcrumb -->
-
+        <!-- Header -->
+        <header class="header">
+            <!-- Include navigation bar based on user type -->
+            {% if user.is_authenticated and user.is_patient %}
+            {% include 'patient_navbar.html' %}
+            {% endif %}
+            
+            {% if user.is_authenticated and user.is_doctor %}
+            {% include 'doctor-navbar.html' %}
+            {% endif %}
+        </header>
+        <!-- /Header -->
     
-    <!-- Page Content -->
-    <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-              <!-- Profile Sidebar -->
-              <div>
-                {% if user.is_authenticated and user.is_patient %}
-								{% include 'patient-sidebar.html' %}
-								{% endif %}
-				
-								{% if user.is_authenticated and user.is_doctor %}
-								{% include 'doctor-sidebar.html' %}
-								{% endif %}
-              </div>
-              <!-- /Profile Sidebar -->
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <!-- Include breadcrumb navigation based on user type -->
+            <div class="container-fluid">
+                <!-- Your breadcrumb code here -->
             </div>
-
-            <div class="col-md-7 col-lg-8 col-xl-9">
-
+        </div>
+        <!-- /Breadcrumb -->
+    
+        <!-- Page Content -->
+        <div class="content">
+            <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-12">
-                    <h2 class="mb-4 text-center" style="margin-bottom: 0.6rem !important;"><b>Report Analysis</b></h2>
-                    <h4 class="mb-4 text-center" style="color: rgba(33, 37, 41, 0.8); font-size: 16px;">Upload your report files here.</h4>
-
-                <!-- Dropdown and Button -->
-                <div class="d-flex justify-content-between mt-4">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #008631;">
-                            Select Report Type
-                        </button>
-                        <div class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Blood Count</a>
-                            <a class="dropdown-item" href="#">Blood Glucose</a>
+                    <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                        <!-- Profile Sidebar -->
+                        <!-- Include sidebar based on user type -->
+                        <div>
+                            {% if user.is_authenticated and user.is_patient %}
+                            {% include 'patient-sidebar.html' %}
+                            {% endif %}
+                            
+                            {% if user.is_authenticated and user.is_doctor %}
+                            {% include 'doctor-sidebar.html' %}
+                            {% endif %}
+                        </div>
+                        <!-- /Profile Sidebar -->
+                    </div>
+    
+                    <div class="col-md-7 col-lg-8 col-xl-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="mb-4 text-center" style="margin-bottom: 0.6rem !important;"><b>Report Analysis</b></h2>
+                                <h4 class="mb-4 text-center" style="color: rgba(33, 37, 41, 0.8); font-size: 16px;">Upload your report files here.</h4>
+    
+                                <!-- Dropdown and Button -->
+                                <div class="d-flex justify-content-between mt-4">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #008631;">
+                                            Select Report Type
+                                        </button>
+                                        <div class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#" data-analysis-type="blood_glucose">Blood Glucose</a>
+                                            <a class="dropdown-item" href="#" data-analysis-type="blood_count">Blood Count</a>
+                                        </div>
+                                    </div>
+                                    <input type="file" id="fileInput" name="files[]" multiple style="display: none;">
+                                    <button type="button" id="uploadButton" class="btn btn-primary">Upload Here</button>
+                                </div>
+                                <!-- /Dropdown and Button -->
+                            </div>
+                        </div>
+    
+                        <!-- chart -->
+                        <div id="chart-container">
+                            <canvas id="medicalReportsChart"></canvas>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary">Upload Here</button>
-                </div>
-                
-                <!-- /Dropdown and Button -->
-
-                  </div>
-                </div>
-
-                <!-- chart -->
-                <div id="chart-container">
-                    <canvas id="medicalReportsChart"></canvas>
                 </div>
             </div>
-
-          </div>
         </div>
+        <!-- /Page Content -->
+    
+        <!-- Footer -->
+        {% include 'footer.html' %}
+        <!-- /Footer -->
     </div>
-    <!-- Page Content -->
-
-    <!-- Footer -->
-    {% include 'footer.html' %}
-    <!-- /Footer -->
-
     <!-- /Main Wrapper -->
-  {% else %} 
-  <p> You are not logged in </p> 
-  {% endif %}
+    {% else %} 
+    <p> You are not logged in </p> 
+    {% endif %}
     <!-- jQuery -->
     <script src="{% static 'HealthStack-System/js/Normal/jquery.min.js' %}"></script>
 
@@ -191,40 +172,75 @@
 
     <!-- dropdown selections -->
     <script>
-    // <!-- Dropdown selection -->
-        document.addEventListener("DOMContentLoaded", function() {
-            const dropdownItems = document.querySelectorAll('.dropdown-item');
-    
-            dropdownItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const selectedValue = this.textContent.trim();
-                    const dropdownButton = document.getElementById('dropdownMenuButton');
-                    dropdownButton.textContent = selectedValue;
-                });
-            });
-        });
+      document.addEventListener("DOMContentLoaded", function() {
+          // Dropdown selection
+          const dropdownItems = document.querySelectorAll('.dropdown-item');
+      
+          dropdownItems.forEach(item => {
+              item.addEventListener('click', function() {
+                  const selectedValue = this.dataset.analysisType;
+                  const dropdownButton = document.getElementById('dropdownMenuButton');
+                  dropdownButton.textContent = selectedValue;
+                  dropdownButton.dataset.analysisType = selectedValue;
+              });
+          });
+      
+          // Upload files button click handler
+          const uploadButton = document.getElementById('uploadButton');
+          const fileInput = document.getElementById('fileInput');
+      
+          uploadButton.addEventListener('click', function() {
+              fileInput.click();
+          });
+      
+          // File input change event listener
+          fileInput.addEventListener('change', function() {
+              const selectedFiles = Array.from(this.files);
+              const analysisType = document.getElementById('dropdownMenuButton').dataset.analysisType;
+      
+              if (!analysisType) {
+                  alert('Please select a report type.');
+                  return;
+              }
+      
+              if (selectedFiles.length === 0) {
+                  alert('Please select one or more files to upload.');
+                  return;
+              }
+      
+              // Prepare form data
+              const formData = new FormData();
+              formData.append('analysis_type', analysisType);
+              selectedFiles.forEach(file => {
+                  formData.append('files[]', file);
+              });
+      
+              // Make AJAX request to analyze-report endpoint
+              fetch('{% url "analyze-report" %}', {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                      'X-CSRFToken': '{{ csrf_token }}' // Add CSRF token for security
+                  }
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  // Handle API response data
+                  console.log(data);
+                  // You can update the chart with the received data here
+              })
+              .catch(error => {
+                  console.error('There was a problem with the fetch operation:', error);
+              });
+          });
+      });
+      </script>
 
-    // <!-- Upload here button -->
-        document.addEventListener("DOMContentLoaded", function() {
-            const uploadButton = document.querySelector('.btn.btn-primary');
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.multiple = true; 
-
-            uploadButton.addEventListener('click', function() {
-                fileInput.click();
-            });
-
-            fileInput.addEventListener('change', function() {
-                const selectedFiles = Array.from(this.files); // array of files
-            });
-        });
-    </script>
-    
-    
-
-  </body>
-
+</body>
 </html>
-
 
