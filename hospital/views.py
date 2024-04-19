@@ -821,6 +821,7 @@ def analyze_report(request):
                 os.remove(file.name)
 
             return json.dumps(final_json)
+    else:
         return redirect('logout')
 
     return render(request, 'report-analysis.html', context={'patient': patient})
