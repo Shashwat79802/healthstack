@@ -55,6 +55,7 @@
             width: 65%; 
             margin-left: 20px; 
             margin-top: 50px; 
+            display: none;
         }
 
     </style>
@@ -231,6 +232,8 @@
                   alert('Please select one or more files to upload.');
                   return;
               }
+
+              document.getElementById('chart-container').style.display = 'block';
 
               // Prepare form data
               const formData = new FormData();

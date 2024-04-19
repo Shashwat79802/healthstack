@@ -1,7 +1,7 @@
 function updateChartWithData(data, analysisType) {
-    if (analysisType === 'blood_count') {
+    if (analysisType === 'Blood Count') {
         updateBloodCountChart(data);
-    } else if (analysisType === 'blood_glucose') {
+    } else if (analysisType === 'Blood Glucose') {
         updateBloodGlucoseChart(data);
     } else {
         console.error('Invalid analysis type:', analysisType);
@@ -14,7 +14,7 @@ function updateBloodGlucoseChart(data) {
     const bloodGlucosePostprandial = Object.values(data).map(item => item['Blood Glucose(PP)']);
 
             // Create the chart
-    const ctx = document.getElementById('bloodGlucoseChart').getContext('2d');
+    const ctx = document.getElementById('medicalReportsChart').getContext('2d');
         const medicalReportsChart = new Chart(ctx, {
             type: 'line',
             data: {
