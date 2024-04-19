@@ -50,33 +50,33 @@
 
 
 
-document.addEventListener("DOMContentLoaded", function() {
+function updateChartWithData(data) {
     // Fetch data from the JSON file
     // fetch('data/hospital-reports.json')
     //     .then(response => response.json())
     //     .then(data => { - the rest of the code goes here
     //      });
 
-    const data = {
-        "0": {
-            "Haemoglobin": 10.1,
-            "Platelet Count": 3.0,
-            "RBC": 4.5,
-            "Date": "08/14/2024"
-        },
-        "1": {
-            "Haemoglobin": 8.0,
-            "Platelet Count": 5.0,
-            "RBC": 4.5,
-            "Date": "08/14/2024"
-        },
-        "2": {
-            "Haemoglobin": 9.4,
-            "Platelet Count": 5.0,
-            "RBC": 4.2,
-            "Date": "08/14/2024"
-        }
-    };
+    // const data = {
+    //     "0": {
+    //         "Haemoglobin": 10.1,
+    //         "Platelet Count": 3.0,
+    //         "RBC": 4.5,
+    //         "Date": "08/14/2024"
+    //     },
+    //     "1": {
+    //         "Haemoglobin": 8.0,
+    //         "Platelet Count": 5.0,
+    //         "RBC": 4.5,
+    //         "Date": "08/14/2024"
+    //     },
+    //     "2": {
+    //         "Haemoglobin": 9.4,
+    //         "Platelet Count": 5.0,
+    //         "RBC": 4.2,
+    //         "Date": "08/14/2024"
+    //     }
+    // };
 
             // Extract data from the JSON
             const dates = Object.values(data).map(item => item.Date);
@@ -127,4 +127,4 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
             });
-});
+};
