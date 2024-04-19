@@ -256,7 +256,7 @@
               .then(data => {
                   // Handle API response data
                   console.log(data);
-                  updateChartWithData(data);
+                  updateChartWithData(data,analysisType);
                   // You can update the chart with the received data here
               })
               .catch(error => {
