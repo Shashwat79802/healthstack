@@ -820,8 +820,7 @@ def analyze_report(request):
             for file in uploaded_files:
                 os.remove(file.name)
 
-            return render(request, 'report-analysis.html', context={'patient': patient, 'final_json': final_json})
-    else:
+            return json.dumps(final_json)
         return redirect('logout')
 
     return render(request, 'report-analysis.html', context={'patient': patient})
