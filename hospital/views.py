@@ -759,9 +759,11 @@ def analyze_report(request):
                         destination.write(chunk)
 
             for file in uploaded_files:
-                extracted_text.append(extract_text_from_pdf(file))
+                text = extract_text_from_pdf(file)
+                print(text)
+                extracted_text.append(text)
 
-            if analysis_type == 'blood_count':
+            if analysis_type == 'Blood Count':
                 for i in range(len(extracted_text)):
                     observed_values = {}
                     patterns = {
@@ -791,9 +793,10 @@ def analyze_report(request):
                         observed_values['Platelet Count'] = 5
 
                     observed_values['Date'] = date
+                    print(observed_values)
                     final_json[i] = observed_values
 
-            elif analysis_type == 'blood_glucose':
+            elif analysis_type == 'Blood Glucose':
                 for i in range(len(extracted_text)):
                     observed_values = {}
                     pattern = r"Blood Glucose\(F\).*?(\d+\.\d+).*?Blood Glucose\(PP\).*?(\d+\.\d+)"
