@@ -760,7 +760,6 @@ def analyze_report(request):
 
             for file in uploaded_files:
                 text = extract_text_from_pdf(file)
-                print(text)
                 extracted_text.append(text)
 
             if analysis_type == 'Blood Count':
@@ -827,8 +826,8 @@ def analyze_report(request):
                     final_json[i] = observed_values
 
             print(final_json)
-            # for file in uploaded_files:
-            #     os.remove(file.name)
+            for file in uploaded_files:
+                os.remove(file.name)
 
             return JsonResponse(final_json)
     else:
