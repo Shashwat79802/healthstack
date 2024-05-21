@@ -109,7 +109,8 @@ def resetPassword(request):
             plain_message = strip_tags(html_message)
             
             try:
-                send_mail(subject, plain_message, 'admin@example.com',  [user.email], html_message=html_message, fail_silently=False)
+                #send_mail(subject, plain_message 'admin@example.com',  [user.email], html_message=html_message, fail_silently=False)
+                pass
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect ("password_reset_done")
